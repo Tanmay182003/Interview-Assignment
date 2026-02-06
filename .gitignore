@@ -1,0 +1,27 @@
+# Supabase
+backend/supabase/.temp/
+backend/supabase/.branches/
+
+# macOS
+.DS_Store
+*.swp
+
+# Xcode
+ios/NeverGoneDemo.xcodeproj/project.xcworkspace/xcuserdata/
+ios/NeverGoneDemo.xcodeproj/xcuserdata/
+ios/*.xcuserstate
+DerivedData/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# IDE
+.idea/
+.vscode/
+
+# Node
+node_modules/
+
+# Deno
+deno.lock
