@@ -13,6 +13,8 @@ struct ChatView: View {
     
     @StateObject private var viewModel: ChatViewModel
     @State private var inputText = ""
+    @State private var showMemorySuccess = false
+    @State private var memorySummary = ""
     @FocusState private var isInputFocused: Bool
     
     init(session: ChatSession) {
@@ -60,7 +62,8 @@ struct ChatView: View {
                     Button {
                         Task {
                             if let memory = await viewModel.generateMemory() {
-                                print("Memory created: \(memory.summary)")
+                                memorySummary = memory.summary
+                                showMemorySuccess = true
                             }
                         }
                     } label: {
@@ -80,6 +83,11 @@ struct ChatView: View {
             }
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
+        .alert("Memory Saved! 🧠", isPresented: $showMemorySuccess) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(memorySummary)
         }
         .task {
             await viewModel.loadMessages()

@@ -87,6 +87,11 @@ final class ChatViewModel: ObservableObject {
         
         // Start streaming
         startStreaming(message: trimmedText)
+        
+        // Update session title if it's the first message
+        if session.title == "New Chat" || messages.count <= 1 {
+            updateSessionTitle(with: trimmedText)
+        }
     }
     
     /// Cancel the current streaming response
@@ -140,12 +145,57 @@ final class ChatViewModel: ObservableObject {
                 self?.streamingContent += chunk
             },
             onComplete: { [weak self] in
-                self?.handleStreamComplete()
+                guard let self = self else { return }
+                
+                // Save assistant message to history
+                let assistantMessage = ChatMessage.local(
+                    sessionId: self.session.id,
+                    role: .assistant,
+                    content: self.streamingContent
+                )
+                self.messages.append(assistantMessage)
+                
+                self.streamingContent = ""
+                self.isStreaming = false
             },
             onError: { [weak self] error in
-                self?.handleStreamError(error)
+                self?.errorMessage = error.localizedDescription
+                self?.isStreaming = false
             }
         )
+    }
+    
+    private func updateSessionTitle(with message: String) {
+        // Create title from first few words (up to 4 words or 30 chars)
+        let words = message.components(separatedBy: .whitespacesAndNewlines)
+        let title = words.prefix(4).joined(separator: " ")
+        var finalTitle = title
+        if finalTitle.count > 30 {
+            finalTitle = String(finalTitle.prefix(30)) + "..."
+        } else if title.isEmpty {
+            finalTitle = "New Chat"
+        }
+        
+        // Update local session
+        // Note: ChatSession is a let constant, so we can't mutate it directly in place.
+        // However, the session list view model fetches sessions fresh, so this update is mainly for the UI title bar if binding is used.
+        // Since session is passed as a value type, we can't easily update the parent's list.
+        // But we can update the database so next fetch is correct.
+        
+        Task {
+            do {
+                try await SupabaseManager.shared
+                    .from("chat_sessions")
+                    .update(["title": finalTitle])
+                    .eq("id", value: session.id)
+                    .execute()
+            } catch {
+                print("Failed to update session title: \(error)")
+            }
+            
+            // If we had a callback to update parent, we'd call it here.
+            // For now, next refresh will show it.
+        }
     }
     
     private func handleStreamComplete() {

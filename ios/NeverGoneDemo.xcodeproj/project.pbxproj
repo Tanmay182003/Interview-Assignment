@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,16 @@
 		2A00001D0000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A00001E0000000000000001 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5049C6242F37D3D1000BDB87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A00002C0000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2A0000280000000000000001;
+			remoteInfo = NeverGoneDemo;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		2A0000020000000000000001 /* NeverGoneDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeverGoneDemoApp.swift; sourceTree = "<group>"; };
 		2A0000040000000000000001 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -38,7 +48,12 @@
 		2A00001A0000000000000001 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		2A00001E0000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2A00001F0000000000000001 /* NeverGoneDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NeverGoneDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5049C6202F37D3D1000BDB87 /* NeverGoneDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeverGoneDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		5049C6212F37D3D1000BDB87 /* NeverGoneDemoTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NeverGoneDemoTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2A0000200000000000000001 /* Frameworks */ = {
@@ -49,6 +64,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5049C61D2F37D3D1000BDB87 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -56,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				2A0000220000000000000001 /* NeverGoneDemo */,
+				5049C6212F37D3D1000BDB87 /* NeverGoneDemoTests */,
 				2A0000230000000000000001 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -78,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				2A00001F0000000000000001 /* NeverGoneDemo.app */,
+				5049C6202F37D3D1000BDB87 /* NeverGoneDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,6 +167,29 @@
 			productReference = 2A00001F0000000000000001 /* NeverGoneDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		5049C61F2F37D3D1000BDB87 /* NeverGoneDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5049C6282F37D3D1000BDB87 /* Build configuration list for PBXNativeTarget "NeverGoneDemoTests" */;
+			buildPhases = (
+				5049C61C2F37D3D1000BDB87 /* Sources */,
+				5049C61D2F37D3D1000BDB87 /* Frameworks */,
+				5049C61E2F37D3D1000BDB87 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5049C6252F37D3D1000BDB87 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				5049C6212F37D3D1000BDB87 /* NeverGoneDemoTests */,
+			);
+			name = NeverGoneDemoTests;
+			packageProductDependencies = (
+			);
+			productName = NeverGoneDemoTests;
+			productReference = 5049C6202F37D3D1000BDB87 /* NeverGoneDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -150,11 +197,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1520;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					2A0000280000000000000001 = {
 						CreatedOnToolsVersion = 15.2;
+					};
+					5049C61F2F37D3D1000BDB87 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 2A0000280000000000000001;
 					};
 				};
 			};
@@ -175,6 +226,7 @@
 			projectRoot = "";
 			targets = (
 				2A0000280000000000000001 /* NeverGoneDemo */,
+				5049C61F2F37D3D1000BDB87 /* NeverGoneDemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -185,6 +237,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A00001D0000000000000001 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5049C61E2F37D3D1000BDB87 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,7 +269,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5049C61C2F37D3D1000BDB87 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5049C6252F37D3D1000BDB87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2A0000280000000000000001 /* NeverGoneDemo */;
+			targetProxy = 5049C6242F37D3D1000BDB87 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2A00002F0000000000000001 /* Debug */ = {
@@ -388,6 +462,48 @@
 			};
 			name = Release;
 		};
+		5049C6262F37D3D1000BDB87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tanmay.NeverGoneDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NeverGoneDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NeverGoneDemo";
+			};
+			name = Debug;
+		};
+		5049C6272F37D3D1000BDB87 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tanmay.NeverGoneDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NeverGoneDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NeverGoneDemo";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -405,6 +521,15 @@
 			buildConfigurations = (
 				2A00002F0000000000000001 /* Debug */,
 				2A0000300000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5049C6282F37D3D1000BDB87 /* Build configuration list for PBXNativeTarget "NeverGoneDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5049C6262F37D3D1000BDB87 /* Debug */,
+				5049C6272F37D3D1000BDB87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

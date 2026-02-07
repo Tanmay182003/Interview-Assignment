@@ -32,6 +32,11 @@ final class AuthViewModel: ObservableObject {
     @Published var confirmPassword = ""
     @Published var isSignUpMode = false
     
+    // MARK: - OTP Verification State
+    
+    @Published var isPendingVerification = false
+    @Published var otpCode = ""
+    
     // MARK: - Private
     
     private var authStateTask: Task<Void, Never>?
@@ -90,8 +95,8 @@ final class AuthViewModel: ObservableObject {
                 email: email,
                 password: password
             )
-            // Clear form on success
-            clearForm()
+            // Show OTP verification screen
+            isPendingVerification = true
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -140,6 +145,59 @@ final class AuthViewModel: ObservableObject {
         errorMessage = nil
     }
     
+    // MARK: - OTP Verification
+    
+    /// Verify the OTP code
+    func verifyOTP() async {
+        guard !otpCode.isEmpty else {
+            errorMessage = "Please enter the verification code"
+            return
+        }
+        
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            try await SupabaseManager.shared.auth.verifyOTP(
+                email: email,
+                token: otpCode,
+                type: .signup
+            )
+            // Clear form and OTP on success
+            clearForm()
+            isPendingVerification = false
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        
+        isLoading = false
+    }
+    
+    /// Resend OTP code
+    func resendOTP() async {
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            try await SupabaseManager.shared.auth.resend(
+                email: email,
+                type: .signup
+            )
+            errorMessage = "Code sent! Check your email."
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        
+        isLoading = false
+    }
+    
+    /// Cancel OTP verification and go back
+    func cancelVerification() {
+        isPendingVerification = false
+        otpCode = ""
+        errorMessage = nil
+    }
+    
     // MARK: - Helpers
     
     private func validateInput() -> Bool {
@@ -178,5 +236,6 @@ final class AuthViewModel: ObservableObject {
         email = ""
         password = ""
         confirmPassword = ""
+        otpCode = ""
     }
 }

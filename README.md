@@ -137,28 +137,57 @@ Tests can be small — they must be real.
 
 ## Running Locally
 
-You **must** update this README with working local instructions.
+### Backend (Supabase)
 
-### Backend
+This project uses Supabase Cloud.
 
-```bash
-cd backend
-supabase start
-supabase db reset
-supabase functions serve
-```
+**The app is pre-configured to connect to the deployed demo backend.** You do **not** need to set up anything locally to run the iOS app.
 
-Explain:
-- how auth is handled locally
-- any environment variables required
+*(If you wish to deploy your own backend, see `backend/supabase` folder and standard Supabase CLI commands: `supabase link`, `db push`, `functions deploy`)*
 
-### iOS
+### iOS App
 
-Explain:
-- how to configure Supabase URL + anon key
-- how to run the app in Simulator
-- how to sign up a test user
-- how to trigger a streaming response
+1. Open `ios/NeverGoneDemo.xcodeproj` in Xcode 15+.
+2. **Run the App:**
+   - Select a Simulator (iOS 17+).
+   - Press `Cmd + R`.
+3. **Test the App:**
+   - **Sign Up:** Create a new account. The backend will send a 6-digit OTP code to your email.
+   - **Chat:** Create a new session. Sending the first message (e.g., "Hello") will automatically rename the session title.
+   - **Streaming:** The assistant response will stream in real-time.
+   - **Summarize:** Tap the meatball menu (three dots) -> Summarize to generate a memory.
+4. **Test the App:**
+   - **Sign Up:** Create a new account. Check your email (or Supabase Dashboard / Inbucket locally) for the 6-digit OTP code.
+   - **Chat:** Create a new session. Sending the first message (e.g., "Hello") will automatically rename the session title.
+   - **Streaming:** The assistant response will stream in real-time.
+   - **Summarize:** Tap the meatball menu (three dots) -> Summarize to generate a memory.
+
+---
+
+## Tests
+
+### iOS Tests
+Located in `ios/NeverGoneDemo/Tests/`.
+- `StreamingServiceTests.swift`: Tests the logic for parsing SSE chunks.
+- To run: Add these files to a Test Target in Xcode `Cmd + U`.
+
+### Backend Tests
+Located in `backend/supabase/functions/_shared/`.
+- `utils_test.ts`: Tests utility functions for the Edge Functions.
+- To run:
+  ```bash
+  cd backend/supabase/functions
+  deno test --allow-all
+  ```
+
+---
+
+## Technical Decisions & Tradeoffs
+
+- **Architecture:** MVVM was chosen for clean separation of view and logic. `StreamingService` handles the complex async stream ensuring the View remains simple.
+- **Data Persistence:** Messages are stored locally in the view model for immediate rendering but persisted to Supabase by the Edge Function to ensure truth.
+- **Safety**: `verify_jwt` is handled manually in Edge Functions to ensure secure access.
+- **Polish**: Dynamic chat titles and confirming passwords added for better UX.
 
 ---
 

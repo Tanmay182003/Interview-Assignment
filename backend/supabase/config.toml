@@ -47,7 +47,7 @@ enable_signup = true
 [auth.email]
 enable_signup = true
 double_confirm_changes = true
-enable_confirmations = false  # Disabled for local dev - no email confirmation required
+enable_confirmations = true  # Email OTP confirmation enabled
 secure_password_change = false
 otp_length = 6
 otp_expiry = 3600

@@ -187,6 +187,7 @@ serve(async (req: Request) => {
                 success: true,
                 memory: {
                     id: memory.id,
+                    user_id: memory.user_id,
                     session_id: memory.session_id,
                     summary: memory.summary,
                     created_at: memory.created_at,
