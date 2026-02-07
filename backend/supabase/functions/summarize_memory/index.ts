@@ -107,17 +107,24 @@ serve(async (req: Request) => {
 
         // Initialize Supabase client with user's JWT
         const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+        const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
         const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 
-        const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-            global: {
-                headers: { Authorization: authHeader },
+        // Extract JWT from Bearer token
+        const jwt = authHeader.replace("Bearer ", "");
+
+        // Use service role key for database operations
+        const supabase = createClient(supabaseUrl, supabaseServiceKey || supabaseAnonKey, {
+            auth: {
+                autoRefreshToken: false,
+                persistSession: false,
             },
         });
 
-        // Get the authenticated user
-        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        // Verify the user's JWT
+        const { data: { user }, error: userError } = await supabase.auth.getUser(jwt);
         if (userError || !user) {
+            console.error("Auth error:", userError);
             return new Response(
                 JSON.stringify({ error: "Invalid or expired token" }),
                 { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }

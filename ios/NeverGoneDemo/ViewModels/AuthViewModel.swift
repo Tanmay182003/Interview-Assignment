@@ -29,6 +29,7 @@ final class AuthViewModel: ObservableObject {
     
     @Published var email = ""
     @Published var password = ""
+    @Published var confirmPassword = ""
     @Published var isSignUpMode = false
     
     // MARK: - Private
@@ -162,11 +163,20 @@ final class AuthViewModel: ObservableObject {
             return false
         }
         
+        // Validate confirm password for sign up
+        if isSignUpMode {
+            guard password == confirmPassword else {
+                errorMessage = "Passwords do not match"
+                return false
+            }
+        }
+        
         return true
     }
     
     private func clearForm() {
         email = ""
         password = ""
+        confirmPassword = ""
     }
 }

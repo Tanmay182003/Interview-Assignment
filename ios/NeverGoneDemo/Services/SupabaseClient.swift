@@ -35,9 +35,9 @@ final class SupabaseManager {
         client.auth
     }
     
-    /// Database client for Postgres operations
-    var database: PostgrestClient {
-        client.database
+    /// Access table data using client.from(_:) directly
+    func from(_ table: String) -> PostgrestQueryBuilder {
+        client.from(table)
     }
     
     // MARK: - Current User

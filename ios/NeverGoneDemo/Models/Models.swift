@@ -18,7 +18,7 @@ enum MessageRole: String, Codable, CaseIterable {
 // MARK: - Chat Session
 
 /// Represents a chat conversation
-struct ChatSession: Identifiable, Codable, Equatable {
+struct ChatSession: Identifiable, Codable, Equatable, Hashable {
     let id: UUID
     let userId: UUID
     var title: String

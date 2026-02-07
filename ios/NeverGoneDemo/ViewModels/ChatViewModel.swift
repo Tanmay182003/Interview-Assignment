@@ -38,7 +38,7 @@ final class ChatViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            let response: [ChatMessage] = try await SupabaseManager.shared.database
+            let response: [ChatMessage] = try await SupabaseManager.shared
                 .from("chat_messages")
                 .select()
                 .eq("session_id", value: session.id.uuidString)
@@ -47,6 +47,16 @@ final class ChatViewModel: ObservableObject {
                 .value
             
             messages = response
+            
+            // Add welcome message if this is a new chat with no messages
+            if messages.isEmpty {
+                let welcomeMessage = ChatMessage.local(
+                    sessionId: session.id,
+                    role: .assistant,
+                    content: "Hi! I'm your NeverGone assistant. How can I help you today?"
+                )
+                messages.append(welcomeMessage)
+            }
         } catch {
             errorMessage = error.localizedDescription
         }

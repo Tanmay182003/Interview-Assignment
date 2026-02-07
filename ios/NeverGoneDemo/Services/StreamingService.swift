@@ -67,8 +67,11 @@ final class StreamingService {
     ) async throws {
         // Get access token
         guard let accessToken = await SupabaseManager.shared.accessToken else {
+            print("❌ DEBUG: No access token available!")
             throw StreamingError.noAccessToken
         }
+        
+        print("✅ DEBUG: Got access token: \(accessToken.prefix(20))...")
         
         // Build request
         var request = URLRequest(url: Config.chatStreamURL)
@@ -91,7 +94,14 @@ final class StreamingService {
         }
         
         guard httpResponse.statusCode == 200 else {
-            throw StreamingError.httpError(statusCode: httpResponse.statusCode, message: nil)
+            // Read error body for debugging
+            var errorBody = ""
+            for try await byte in bytes {
+                errorBody.append(Character(UnicodeScalar(byte)))
+                if errorBody.count > 500 { break } // Limit size
+            }
+            print("❌ DEBUG: HTTP \(httpResponse.statusCode) Error body: \(errorBody)")
+            throw StreamingError.httpError(statusCode: httpResponse.statusCode, message: errorBody.isEmpty ? nil : errorBody)
         }
         
         // Process SSE stream

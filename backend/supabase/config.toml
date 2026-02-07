@@ -65,3 +65,13 @@ enabled = false
 # Edge Functions configuration
 # Note: Functions are enabled by default when the [functions] section exists
 # Individual function settings can be configured as [functions.my_function]
+
+# Disable gateway JWT verification for chat_stream
+# Our function code still verifies JWT internally with getUser(jwt)
+[functions.chat_stream]
+verify_jwt = false
+
+# Disable gateway JWT verification for summarize_memory
+# Our function code still verifies JWT internally with getUser(jwt)
+[functions.summarize_memory]
+verify_jwt = false

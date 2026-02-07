@@ -8,7 +8,7 @@ import PackageDescription
 let package = Package(
     name: "NeverGoneDemo",
     platforms: [
-        .iOS(.v16)
+        .iOS(.v17)
     ],
     dependencies: [
         .package(url: "https://github.com/supabase/supabase-swift.git", from: "2.0.0")

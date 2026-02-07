@@ -64,7 +64,7 @@ struct ChatView: View {
                             }
                         }
                     } label: {
-                        Label("Save Memory", systemImage: "brain")
+                        Label("Summarize", systemImage: "brain")
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")

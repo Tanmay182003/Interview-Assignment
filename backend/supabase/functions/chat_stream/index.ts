@@ -44,10 +44,10 @@ async function* generateResponse(userMessage: string): AsyncGenerator<string> {
     "The streaming is working correctly!",
     "Each word appears progressively to demonstrate true SSE streaming.",
   ];
-  
+
   const fullResponse = responses.join(" ");
   const words = fullResponse.split(" ");
-  
+
   for (const word of words) {
     // Simulate LLM token generation delay (50-150ms per word)
     await new Promise((resolve) => setTimeout(resolve, 50 + Math.random() * 100));
@@ -87,7 +87,7 @@ serve(async (req: Request) => {
 
     // Parse request body
     const { session_id, message }: ChatRequest = await req.json();
-    
+
     if (!session_id || !message) {
       return new Response(
         JSON.stringify({ error: "Missing session_id or message" }),
@@ -95,19 +95,26 @@ serve(async (req: Request) => {
       );
     }
 
+    // Extract JWT from Bearer token
+    const jwt = authHeader.replace("Bearer ", "");
+
     // Initialize Supabase client with user's JWT
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
-    
-    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-      global: {
-        headers: { Authorization: authHeader },
+
+    // Use service role key for database operations
+    const supabase = createClient(supabaseUrl, supabaseServiceKey || supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
       },
     });
 
-    // Get the authenticated user
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    // Verify the user's JWT
+    const { data: { user }, error: userError } = await supabase.auth.getUser(jwt);
     if (userError || !user) {
+      console.error("Auth error:", userError);
       return new Response(
         JSON.stringify({ error: "Invalid or expired token" }),
         { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -162,7 +169,7 @@ serve(async (req: Request) => {
           // Stream the response word by word
           for await (const chunk of generateResponse(message)) {
             if (aborted) break;
-            
+
             fullAssistantResponse += chunk;
             controller.enqueue(encoder.encode(formatSSEChunk(chunk)));
           }

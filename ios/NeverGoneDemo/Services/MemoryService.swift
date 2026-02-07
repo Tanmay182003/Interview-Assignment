@@ -71,6 +71,8 @@ final class MemoryService {
         
         guard httpResponse.statusCode == 200 else {
             // Try to parse error message
+            let bodyString = String(data: data, encoding: .utf8) ?? "no body"
+            print("❌ DEBUG: Memory save failed. HTTP \(httpResponse.statusCode) Body: \(bodyString)")
             let errorMessage = try? decoder.decode(APIError.self, from: data).error
             throw MemoryError.httpError(statusCode: httpResponse.statusCode, message: errorMessage)
         }
@@ -86,7 +88,7 @@ final class MemoryService {
     
     /// Fetch all memories for the current user
     func fetchMemories() async throws -> [Memory] {
-        let response: [Memory] = try await SupabaseManager.shared.database
+        let response: [Memory] = try await SupabaseManager.shared
             .from("memories")
             .select()
             .order("created_at", ascending: false)
@@ -98,7 +100,7 @@ final class MemoryService {
     
     /// Fetch memories for a specific session
     func fetchMemories(for sessionId: UUID) async throws -> [Memory] {
-        let response: [Memory] = try await SupabaseManager.shared.database
+        let response: [Memory] = try await SupabaseManager.shared
             .from("memories")
             .select()
             .eq("session_id", value: sessionId.uuidString)

@@ -45,6 +45,13 @@ struct AuthView: View {
                         .textFieldStyle(.roundedBorder)
                         .textContentType(viewModel.isSignUpMode ? .newPassword : .password)
                     
+                    // Confirm password for sign up
+                    if viewModel.isSignUpMode {
+                        SecureField("Confirm Password", text: $viewModel.confirmPassword)
+                            .textFieldStyle(.roundedBorder)
+                            .textContentType(.newPassword)
+                    }
+                    
                     // Error message
                     if let error = viewModel.errorMessage {
                         Text(error)

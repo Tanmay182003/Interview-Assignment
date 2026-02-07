@@ -25,7 +25,7 @@ final class SessionListViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            let response: [ChatSession] = try await SupabaseManager.shared.database
+            let response: [ChatSession] = try await SupabaseManager.shared
                 .from("chat_sessions")
                 .select()
                 .order("updated_at", ascending: false)
@@ -54,7 +54,7 @@ final class SessionListViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            let newSession: ChatSession = try await SupabaseManager.shared.database
+            let newSession: ChatSession = try await SupabaseManager.shared
                 .from("chat_sessions")
                 .insert([
                     "user_id": userId.uuidString,
@@ -83,7 +83,7 @@ final class SessionListViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            try await SupabaseManager.shared.database
+            try await SupabaseManager.shared
                 .from("chat_sessions")
                 .delete()
                 .eq("id", value: session.id.uuidString)
@@ -103,7 +103,7 @@ final class SessionListViewModel: ObservableObject {
         guard !newTitle.isEmpty else { return }
         
         do {
-            try await SupabaseManager.shared.database
+            try await SupabaseManager.shared
                 .from("chat_sessions")
                 .update(["title": newTitle])
                 .eq("id", value: session.id.uuidString)
