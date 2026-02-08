@@ -137,30 +137,29 @@ Tests can be small — they must be real.
 
 ## Running Locally
 
+**Before You Start**: Check the detailed instructions in [backend/README.md](./backend/README.md) and [ios/README.md](./ios/README.md).
+
+> **Note**: I have **hosted a Supabase instance** for this project to make testing easier for you. The iOS app is pre-configured to connect to it, so you don't *need* to run the backend locally unless you want to test the Edge Functions in a local environment.
+
 ### Backend (Supabase)
 
-This project uses Supabase Cloud.
+```bash
+cd backend
+supabase start
+supabase db reset
+supabase functions serve
+```
 
-**The app is pre-configured to connect to the deployed demo backend.** You do **not** need to set up anything locally to run the iOS app.
-
-*(If you wish to deploy your own backend, see `backend/supabase` folder and standard Supabase CLI commands: `supabase link`, `db push`, `functions deploy`)*
+This will start the local Supabase stack. 
+- **Auth**: Handled by Supabase Auth locally. Check emails at `http://localhost:54324`.
+- **Environment**: Keys are auto-configured by the CLI.
 
 ### iOS App
 
-1. Open `ios/NeverGoneDemo.xcodeproj` in Xcode 15+.
-2. **Run the App:**
-   - Select a Simulator (iOS 17+).
-   - Press `Cmd + R`.
-3. **Test the App:**
-   - **Sign Up:** Create a new account. The backend will send a 6-digit OTP code to your email.
-   - **Chat:** Create a new session. Sending the first message (e.g., "Hello") will automatically rename the session title.
-   - **Streaming:** The assistant response will stream in real-time.
-   - **Summarize:** Tap the meatball menu (three dots) -> Summarize to generate a memory.
-4. **Test the App:**
-   - **Sign Up:** Create a new account. Check your email (or Supabase Dashboard / Inbucket locally) for the 6-digit OTP code.
-   - **Chat:** Create a new session. Sending the first message (e.g., "Hello") will automatically rename the session title.
-   - **Streaming:** The assistant response will stream in real-time.
-   - **Summarize:** Tap the meatball menu (three dots) -> Summarize to generate a memory.
+1. **Configure**: Update `Config.swift` with the URL and Anon Key printed by `supabase start`.
+2. **Run**: Open `ios/NeverGoneDemo.xcodeproj`, pick a Simulator, and run (`Cmd + R`).
+3. **Sign Up**: Create an account. Check Inbucket for the confirmation code.
+4. **Chat**: Send a message like "Hello" to trigger a streaming response.
 
 ---
 
