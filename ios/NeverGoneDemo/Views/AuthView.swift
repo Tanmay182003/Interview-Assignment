@@ -34,7 +34,7 @@ struct AuthView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
-                Text("We sent a 6-digit code to\n\(viewModel.email)")
+                Text("We sent an 8-digit code to\n\(viewModel.email)")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
